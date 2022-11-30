@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\StoreFlowerRequest;
+use App\Models\Flower;
 
 class FlowerController extends Controller
 {
@@ -12,14 +13,15 @@ class FlowerController extends Controller
     {
         //return "this is a flower page ";
 
-        $flowers = DB::table('flowers')->get();
-        //dd($flowers);
+        $flowers = Flower::all();
+
         return view('all-flowers', ['flowers' => $flowers]);
     }
 
     public function show($id)
     {
-        $flower = DB::table('flowers')->where('id', $id)->first();
+        $flower = Flower::find($id);
+
 
         return view('flower-detail', ['flower' => $flower]);
     }
@@ -37,12 +39,14 @@ class FlowerController extends Controller
         $validated = $request->validated();
 
         // Then : insert
-        $result = DB::table('flowers')->insert([
-            'name' => $request->name,
-            'price' => $request->price
-        ]);
+        $flower = new Flower;
+        $flower->name = $request->name;
+        $flower->price = $request->price;
+        $flower->save();
 
-        if ($result)
+
+
+        if ($flower->save())
             return redirect('/flowers')->with('message', 'Successfully insert in the DB !');
         else
             echo "problem inserting";
@@ -51,34 +55,31 @@ class FlowerController extends Controller
     public function edit($id)
     {
 
-        $flower = DB::table('flowers')->where('id', $id)->first();
+        $flower = Flower::find($id);
+        
+        // $flower = DB::table('flowers')->where('id', $id)->first();
 
         return view('edit-flower', ['flower' => $flower]);
     }
 
     public function update(Request $request, $id)
     {
+        $flower = Flower::find($id);
+        $flower->name = $request->name;
+        $flower->price = $request->price;
+        $flower->save();
 
-        $result = DB::table('flowers')
-            ->where('id', $id)
-            ->update([
-                'name' => $request->name,
-                'price' => $request->price
-            ]);
-
-        if ($result)
+        if ($flower->save())
             return  redirect('/flowers')->with('message', $request->name . ' Successfully updated');
         else
             echo "problem in updating";
     }
     public function destroy($id)
     {
+        $flower = Flower::destroy($id);
 
-        $result = DB::table('flowers')->where('id', '=', $id)->delete();
 
-        //return view('delete-flower');
-
-        if ($result)
+        if ($flower)
             return redirect('/flowers')->with('message', 'Successfully deleted from the DB !');
         else
             return redirect('/flowers')->with('error', 'problem in deleting the flower');
