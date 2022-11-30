@@ -83,6 +83,6 @@ class FlowerController extends Controller
             return redirect('/flowers')->with('message', 'Successfully deleted from the DB !');
         else
             return redirect('/flowers')->with('error', 'problem in deleting the flower');
-            //hhhhhhhhh
+            
     }
 }
