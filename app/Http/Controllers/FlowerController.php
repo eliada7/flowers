@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Requests\StoreFlowerRequest;
 
 class FlowerController extends Controller
 {
@@ -30,17 +31,19 @@ class FlowerController extends Controller
         return view('new-flower');
     }
 
-    public function insert(Request $request)
+    public function insert(StoreFlowerRequest $request)
     {
+        // First: validations
+        $validated = $request->validated();
 
-        $result =  DB::table('flowers')->insert([
+        // Then : insert
+        $result = DB::table('flowers')->insert([
             'name' => $request->name,
-            'price' => $request->price,
-
+            'price' => $request->price
         ]);
 
         if ($result)
-            return redirect('/flowers')->with('message', 'Successfully inserted in the DB !');
+            return redirect('/flowers')->with('message', 'Successfully insert in the DB !');
         else
             echo "problem inserting";
     }
