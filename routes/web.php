@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\FlowerController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,6 +37,26 @@ Route::put('/flowers/update/{id}', [FlowerController::class, 'update']);
 
 
 Route::get('/flowers/delete/{id}', [FlowerController::class, 'destroy']);
+
+
+
+Route::get('/register', [UserController::class, 'create']);
+Route::post('/register', [UserController::class, 'store']); 
+
+
+//Route::get('/register', [UserController::class, 'login-form']);
+//Route::post('/register', [UserController::class, 'store']); 
+
+
+//Route::get('dashboard', [UserController::class, 'dashboard']); 
+//Route::get('logout', [UserController::class, 'logout'])->name('logout');
+
+
+
+
+
+
+
 
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

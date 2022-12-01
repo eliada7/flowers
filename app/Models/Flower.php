@@ -22,21 +22,20 @@ class Flower extends Model
         );
     }
 
-    protected function price(): Attribute
+    protected function priceWithEuro(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => ($value).'$',
-           // set: fn ($value) => ($value),
-            set: fn ($value) => htmlspecialchars($value),
+            get: fn () => $this->attributes['price']. '$',
+          
         );
     }
 
     protected function timestamps(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => Date('Y-M-D',$value),
-           // set: fn ($value) => ($value),
-            set: fn ($value) => ($value),
+
+            get: fn ($value) => date('Y-M-D',strtotime($value)),
+        
         );
     }
 

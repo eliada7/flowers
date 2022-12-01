@@ -21,7 +21,8 @@
     @foreach ($flowers as $flower)
         <p>Name: {{ $flower->name }}</p>
 
-        <p> Price: {{ $flower->price }}</p>
+        <p> Price: {{ $flower->priceWithEuro }}</p>
+        <p> Created At: {{ $flower->created_at }}</p>
         <a href="/flowers/{{ $flower->id }}">Detail Page</a> /
         <a href="/flowers/update/{{ $flower->id }}">Update Flower</a> /
         <a href="/flowers/delete/{{ $flower->id }}">Delete Flower</a>
